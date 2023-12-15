@@ -1,0 +1,194 @@
+body {
+    background-image: linear-gradient(#000, #000);
+    color: white;
+    font-family: JetBrainsLight;
+
+    transition: background-image 2s, backdrop-filter 2000ms;
+    backdrop-filter: brightness(0);
+
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+
+    overflow: overlay;
+}
+
+@font-face {
+    font-family: JetBrainsRegular;
+    src: url("/static/font/JetBrainsMono-Regular.ttf");
+}
+
+@font-face {
+    font-family: JetBrainsLight;
+    src: url("/static/font/JetBrainsMono-Light.ttf")
+}
+
+a {
+    text-decoration: none;
+    color: #5f54d8;
+}
+
+input[type="text"] {
+    font-family: JetBrainsLight;
+
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+
+    width: 200px;
+    height: 30px;
+
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.info {
+    font-family: JetBrainsLight;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+.info h1 {
+    font-size: 20px;
+    padding-top: 13px;
+    margin: 0;
+}
+
+.info p {
+    margin: 0;
+    margin-top: 10px;
+}
+
+
+#info-links {
+    display: inline-flex;
+}
+
+#info-links p {
+    margin-left: 10px;
+}
+
+#song-search:hover {
+    transform: scale(1.05);
+}
+
+.genres {
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+
+    width: 100%;
+    margin-top: 15px;
+    gap: 25px;
+
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
+    user-select: none;
+}
+
+.genres p {
+    display: inline-block;
+
+    font-size: 16px;
+
+    padding: 10px;
+    margin-right: 4px;
+
+    border: 2px solid white;
+    border-radius: 6px;
+
+    user-select: none;
+    cursor: pointer;
+
+    transition: transform 500ms cubic-bezier(.5, 0, .2, 1), opacity 1s, margin-left 500ms, margin-right 500ms;
+}
+
+.genres p:hover {
+    transform: scale(1.05);
+}
+
+.genres p:active {
+    transform: scale(0.95);
+}
+
+.genres p[active="true"] {
+    opacity: 0.4;
+    transform: none;
+}
+
+.genres p[active="false"] {
+    opacity: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    transform: scale(1.1);
+}
+
+
+/* music control */
+.control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    width: 100%;
+    margin-top: 0;
+
+    transition: opacity 1s ease-in-out, margin-top 2s;
+}
+
+.control p {
+    display: inline-block;
+}
+
+#song-volume {
+    width: 200px;
+    height: 15px;
+    border-radius: 22px;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    padding: 5px;
+    outline: none;
+    opacity: 0.7;
+    cursor: pointer;
+    appearance: none;
+    transition: opacity 500ms;
+}
+
+#song-volume:hover {
+    opacity: 1;
+}
+
+#song-volume::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: 0.2s;
+}
+
+#song-volume::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 13px;
+    margin-top: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 7px;
+    border: 5px solid #000000;
+}

@@ -1,0 +1,6 @@
+Sitemap: https://music.dest4590.lol/sitemap.xml
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

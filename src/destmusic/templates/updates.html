@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=600">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/updates.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <title>DestMusic</title>
+</head>
+<body>
+    <h3 style="text-align: center;"><a href="../">back</a></h3>
+
+    {% if not not_found %}         
+        {% if all %}
+            <div class="updates">
+                {% for update in updates %}
+                    {% if not update.hide %}
+                        <div class="update">
+                            <h2 version="{{ update.version }}">Update {{ update.version }}<img src="{% static 'img/svg/copy.svg' %}" width=30 onclick="copyUpdate(this)"></h2>
+                            <hr>
+
+                            {% autoescape off %}
+                                <p>{{ update.text }}</p>
+                            {% endautoescape %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+        <div class="updates">
+            {% if not update.hide %}
+                <div class="update">
+                    <h1>Update {{ update.version }}</h1>
+                    <hr>
+
+                    {% autoescape off %}
+                        <p>{{ update.text }}</p>
+                    {% endautoescape %}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    {% else %}
+        <p style="text-align: center;">Update not found</h1>
+    {% endif %}
+</body>
+</html>

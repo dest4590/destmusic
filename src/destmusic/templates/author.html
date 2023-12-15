@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=600">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/author.css' %}">
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+
+    <title>{{ author.name }}</title>
+    
+    <meta name="description" content="{{ author.description }}">
+    <meta name="author" content="{{ author.name }}">
+</head>
+<body>
+    {% if error %}
+        <div class="info">
+            <h1>Author not found, or not added to database</h1>
+            <p style="color: #ffffff70"><a href="/">go to main page</a></p>
+        </div>
+    {% else %}
+        <div class="author-info">
+            <a href="/upload/{{ author.pfp }}" download><img src="/upload/{{ author.pfp }}"></a>
+
+            <p id="author-name">{{ author.name }}</p>
+            
+            {% autoescape off %}
+                <p id="author-description">{{ author.description }}</p>
+            {% endautoescape %}
+            <a href="../">back</a>
+
+            {% if songs %}
+                <p id="author-songs">Songs</p>
+                <hr>
+            {% else %}
+                <p>the author has no songs</p>
+            {% endif %}
+        </div>
+        
+        {% if songs %}
+            <div class="songs" id="all-songs">
+                {% for song in songs %}
+                    <div class="song" id="song-{{ song.id }}">
+                        {% if song.artwork_censor %}
+                            <a href="/upload/{{ song.artwork }}" download style="display: contents;" title="Download"><img src="/upload/{{ song.artwork }}" id="song-artwork" class="censor" loading="lazy"></a>
+                        {% else %}
+                            <a href="/upload/{{ song.artwork }}" download style="display: contents;" title="Download"><img src="/upload/{{ song.artwork }}" id="song-artwork" loading="lazy"></a>
+                        {% endif %}
+    
+                        <p id="song-name" title="{{ song.name }}">{{ song.name }}</p>
+    
+                        <p id="song-author" title="{{ song.author }}"><a href="/author/{{ song.author }}">{{ song.author }}</a></p>
+                        
+                        <p id="song-genre" title="{{ song.genre }}">{{ song.genre }}</p>
+                        
+                        {% if song.explicit %}
+                            <span id="song-explicit" title="song has uncensored content">e</span>
+                        {% endif %}
+    
+                        <div style="display: inline;margin-top: 10px" id="song-buttons">
+                            <a href="/upload/{{ song.file }}" style="display: contents" download><img src="{% static 'img/svg/download.svg' %}" id="song-download"></a>
+                            
+                            {% if 'remix' in song.type.lower %}
+                                <img src="{% static 'img/svg/remix.svg'%}" style="width: 40px;height: 30px;">
+                            {% endif %}
+    
+                            {% if 'slowed' in song.type.lower %}
+                                <img src="{% static 'img/svg/slowed.svg'%}" style="width: 40px;height: 30px;">
+                            {% endif %}
+    
+                            {% if 'reverb' in song.type.lower %}
+                                <img src="{% static 'img/svg/reverb.svg'%}" style="width: 40px;height: 30px;">
+                            {% endif %}
+                            
+                            {% if 'sped' in song.type.lower %}
+                                <img src="{% static 'img/svg/sped.svg'%}" style="width: 40px;height: 30px;">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

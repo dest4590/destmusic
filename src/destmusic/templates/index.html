@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=600">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <script src="{% static 'js/player.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    <link rel="icon" href="{% static 'img/dest.png' %}">
+    <title>DestMusic</title>
+
+    <meta name="description" content="The site by dest4590 is designed for listening and downloading music, has {{ songs|length }}+ songs in the database, available everywhere, and always, no ads and telemetry">
+    <meta property="og:description" content="The site by dest4590 is designed for listening and downloading music, has {{ songs|length }}+ songs in the database, available everywhere, and always, no ads and telemetry">
+    
+    <meta name="keywords" content="dest4590, music, free music, download, artworks, destmusic">
+    <meta name="author" content="dest4590">
+    <meta property="og:title" content="DestMusic">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://music.dest4590.lol">
+
+    <meta name="google-site-verification" content="9QzfarmJ1v5IlhAGvpquRECYKbaio2cvoLUSuTc1BTQ" />
+</head>
+<body>
+    <div class="info">
+        <h1 id="info-main">DestMusic </h1>
+
+        <div id="info-links">
+            <p><a href="updates">updates</a></p>
+            <p>|</p>
+            <p><a href="https://t.me/music_dest4590">telegram channel</a></p>
+            
+            {% if is_admin %}
+                <p>|</p>
+                <p><a href="/admin">admin</a></p>
+            {% endif %}
+        </div>
+
+        <p>{{ songs|length }} songs and {{ authors_count }} authors in database</p>
+
+        <input type="text" placeholder="Search songs.." style="margin-top: 20px;" id="song-search">
+    </div>
+
+    <div class="genres">
+        <p onclick="search('', null)">None</p>
+
+        {% for genre in genres %}
+            <p onclick="search(null, ['{{ genre }}', this])" class="genre">{{ genre }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="control" id="volume-control" style="opacity: 0;pointer-events: none;">
+        <input type="range" min="0" max="100" id="song-volume" oninput="changeVolume(this)">
+    </div>
+
+    <div class="songs" id="all-songs">
+        {% for song in songs %}
+            {% if not song.hide %}
+                <div class="song" id="song-{{ song.id }}">
+                    {% if song.artwork_censor %}
+                        <a href="/upload/{{ song.artwork }}" download style="display: contents;" title="Download"><img src="/upload/{{ song.artwork }}" id="song-artwork" class="censor" loading="lazy" alt="Artwork"></a>
+                    {% else %}
+                        <a href="/upload/{{ song.artwork }}" download style="display: contents;" title="Download"><img src="/upload/{{ song.artwork }}" id="song-artwork" loading="lazy" alt="Artwork"></a>
+                    {% endif %}
+
+                    <p id="song-name" title="{{ song.name }}">{{ song.name }}</p>
+
+                    <p id="song-author" title="{{ song.author }}"><a href="/author/{{ song.author }}">{{ song.author }}</a></p>
+                    
+                    <p id="song-genre" title="{{ song.genre }}">{{ song.genre }}</p>
+                    
+                    {% if song.explicit %}
+                        <span id="song-explicit" title="song has uncensored content">e</span>
+                    {% endif %}
+
+                    <div style="display: inline;margin-top: 10px" id="song-buttons">
+                        <a href="/upload/{{ song.file }}" style="display: contents" download><img src="{% static 'img/svg/download.svg' %}" id="song-download" alt="Download"></a>
+
+                        {% if 'remix' in song.type.lower %}
+                            <img src="{% static 'img/svg/remix.svg'%}" style="width: 40px;height: 30px;" alt="Remix">
+                        {% endif %}
+
+                        {% if 'slowed' in song.type.lower %}
+                            <img src="{% static 'img/svg/slowed.svg'%}" style="width: 40px;height: 30px;" alt="Slowed">
+                        {% endif %}
+
+                        {% if 'reverb' in song.type.lower %}
+                            <img src="{% static 'img/svg/reverb.svg'%}" style="width: 40px;height: 30px;" alt="Reverb">
+                        {% endif %}
+                        
+                        {% if 'sped' in song.type.lower %}
+                            <img src="{% static 'img/svg/sped.svg'%}" style="width: 40px;height: 30px;" alt="Sped up">
+                        {% endif %}
+                         
+                        {% if song.ext == ".flac" %}
+                            <img src="{% static 'img/svg/flac.svg'%}" style="width: 40px;height: 30px;" title="FLAC is a lossless audio format that preserves high sound quality with a more compact file size." alt="FLAC">
+                            <a onclick="play(this)" style="display: contents;cursor: pointer;"><img src="{% static 'img/svg/play.svg' %}" style="width: 30px;margin-left: 65px;" id="play-img" alt="Play"></a>
+                        {% else %}
+                            <a onclick="play(this)" style="display: contents;cursor: pointer;"><img src="{% static 'img/svg/play.svg' %}" style="width: 30px;position: absolute;margin-right: 12px;" id="play-img" alt="Play"></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
