@@ -1,7 +1,8 @@
-#!/usr/bin/env python
 import os
 import subprocess
 import sys
+
+# shitcode, i know
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Core.settings')
 
